@@ -209,29 +209,29 @@
 
 <header>
   <h1>Mage Tarot Cards</h1>
-  <p>1st Edition &mdash; Kart Cekici</p>
+  <p>1st Edition &mdash; Card Draw</p>
 </header>
 
 <div class="controls">
   <select id="count-select">
-    <option value="1">1 Kart</option>
-    <option value="3" selected>3 Kart</option>
-    <option value="5">5 Kart</option>
+    <option value="1">1 Card</option>
+    <option value="3" selected>3 Cards</option>
+    <option value="5">5 Cards</option>
   </select>
   <select id="suit-select">
-    <option value="all">Tum Desteler</option>
+    <option value="all">All Suits</option>
     <option value="Major Arcana">Major Arcana</option>
     <option value="Dynamism">Dynamism</option>
     <option value="Pattern">Pattern</option>
     <option value="Primordialism">Primordialism</option>
     <option value="Questing">Questing</option>
   </select>
-  <button class="btn primary" onclick="draw()">Kart Cek</button>
-  <button class="btn" onclick="flipAll()">Hepsini Ac</button>
-  <button class="btn" onclick="clearCards()">Temizle</button>
+  <button class="btn primary" onclick="draw()">Draw Cards</button>
+  <button class="btn" onclick="flipAll()">Reveal All</button>
+  <button class="btn" onclick="clearCards()">Clear</button>
 </div>
 
-<p class="hint">Karta tiklayarak cevirip ac</p>
+<p class="hint">Click a card to flip and reveal it</p>
 
 <div id="cards-area"></div>
 
@@ -239,28 +239,28 @@
 const CARDS = [{"name":"1 Ace of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/1 Ace of Dynamism.png"},{"name":"10 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/10 of Dynamism.png"},{"name":"11 Page of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/11 Page of Dynamism.png"},{"name":"12 Knight of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/12 Knight of Dynamism.png"},{"name":"13 King of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/13 King of Dynamism.png"},{"name":"14 Queen of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/14 Queen of Dynamism.png"},{"name":"2 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/2 of Dynamism.png"},{"name":"3 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/3 of Dynamism.png"},{"name":"4 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/4 of Dynamism.png"},{"name":"5 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/5 of Dynamism.png"},{"name":"6 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/6 of Dynamism.png"},{"name":"7 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/7 of Dynamism.png"},{"name":"8 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/8 of Dynamism.png"},{"name":"9 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/9 of Dynamism.png"},{"name":"0 Fool","suit":"Major Arcana","path":"web_cards/Major Arcana/0 Fool.png"},{"name":"03 The Empress","suit":"Major Arcana","path":"web_cards/Major Arcana/03 The Empress.png"},{"name":"1 Mage","suit":"Major Arcana","path":"web_cards/Major Arcana/1 Mage.png"},{"name":"10 Wheel Fortune","suit":"Major Arcana","path":"web_cards/Major Arcana/10 Wheel Fortune.png"},{"name":"11 Justice","suit":"Major Arcana","path":"web_cards/Major Arcana/11 Justice.png"},{"name":"12 The Hanged Man","suit":"Major Arcana","path":"web_cards/Major Arcana/12 The Hanged Man.png"},{"name":"13 Death","suit":"Major Arcana","path":"web_cards/Major Arcana/13 Death.png"},{"name":"14 Temperance","suit":"Major Arcana","path":"web_cards/Major Arcana/14 Temperance.png"},{"name":"15 The Devil","suit":"Major Arcana","path":"web_cards/Major Arcana/15 The Devil.png"},{"name":"16 The Tower","suit":"Major Arcana","path":"web_cards/Major Arcana/16 The Tower.png"},{"name":"17 The Star","suit":"Major Arcana","path":"web_cards/Major Arcana/17 The Star.png"},{"name":"18 Luna","suit":"Major Arcana","path":"web_cards/Major Arcana/18 Luna.png"},{"name":"19 The Sun","suit":"Major Arcana","path":"web_cards/Major Arcana/19 The Sun.png"},{"name":"2 High Priestess","suit":"Major Arcana","path":"web_cards/Major Arcana/2 High Priestess.png"},{"name":"20 Judgement","suit":"Major Arcana","path":"web_cards/Major Arcana/20 Judgement.png"},{"name":"21 Gaia","suit":"Major Arcana","path":"web_cards/Major Arcana/21 Gaia.png"},{"name":"4 Tarot Emperor","suit":"Major Arcana","path":"web_cards/Major Arcana/4 Tarot Emperor.png"},{"name":"5 The Heirophant","suit":"Major Arcana","path":"web_cards/Major Arcana/5 The Heirophant.png"},{"name":"6 The Lovers","suit":"Major Arcana","path":"web_cards/Major Arcana/6 The Lovers.png"},{"name":"7 The Chariot","suit":"Major Arcana","path":"web_cards/Major Arcana/7 The Chariot.png"},{"name":"8 Strength","suit":"Major Arcana","path":"web_cards/Major Arcana/8 Strength.png"},{"name":"9 The Hermit","suit":"Major Arcana","path":"web_cards/Major Arcana/9 The Hermit.png"},{"name":"1 Ace of Pattern","suit":"Pattern","path":"web_cards/Pattern/1 Ace of Pattern.png"},{"name":"10 Pattern","suit":"Pattern","path":"web_cards/Pattern/10 Pattern.png"},{"name":"11 Page of Pattern","suit":"Pattern","path":"web_cards/Pattern/11 Page of Pattern.png"},{"name":"12 Knight of Pattern","suit":"Pattern","path":"web_cards/Pattern/12 Knight of Pattern.png"},{"name":"13 King pattern","suit":"Pattern","path":"web_cards/Pattern/13 King pattern.png"},{"name":"14 Queen of Pattern","suit":"Pattern","path":"web_cards/Pattern/14 Queen of Pattern.png"},{"name":"2 Pattern","suit":"Pattern","path":"web_cards/Pattern/2 Pattern.png"},{"name":"3 Pattern","suit":"Pattern","path":"web_cards/Pattern/3 Pattern.png"},{"name":"4 Pattern","suit":"Pattern","path":"web_cards/Pattern/4 Pattern.png"},{"name":"5 Pattern","suit":"Pattern","path":"web_cards/Pattern/5 Pattern.png"},{"name":"6 Pattern","suit":"Pattern","path":"web_cards/Pattern/6 Pattern.png"},{"name":"7 Pattern","suit":"Pattern","path":"web_cards/Pattern/7 Pattern.png"},{"name":"8 Pattern","suit":"Pattern","path":"web_cards/Pattern/8 Pattern.png"},{"name":"9 Pattern","suit":"Pattern","path":"web_cards/Pattern/9 Pattern.png"},{"name":"1 Ace of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/1 Ace of Primordialism.png"},{"name":"10 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/10 of Primordialism.png"},{"name":"11 Page of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/11 Page of Primordialism.png"},{"name":"12 Knight of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/12 Knight of Primordialism.png"},{"name":"13 King of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/13 King of Primordialism.png"},{"name":"14 Queen of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/14 Queen of Primordialism.png"},{"name":"2 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/2 of Primordialism.png"},{"name":"3 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/3 of Primordialism.png"},{"name":"4 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/4 of Primordialism.png"},{"name":"5 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/5 of Primordialism.png"},{"name":"6 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/6 of Primordialism.png"},{"name":"7 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/7 of Primordialism.png"},{"name":"8 of Primordialism.tif","suit":"Primordialism","path":"web_cards/Primordialism/8 of Primordialism.tif.png"},{"name":"9 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/9 of Primordialism.png"},{"name":"1 Ace of Questing","suit":"Questing","path":"web_cards/Questing/1 Ace of Questing.png"},{"name":"10 of Questing","suit":"Questing","path":"web_cards/Questing/10 of Questing.png"},{"name":"11 Page of Questing","suit":"Questing","path":"web_cards/Questing/11 Page of Questing.png"},{"name":"12 Knight of Questing","suit":"Questing","path":"web_cards/Questing/12 Knight of Questing.png"},{"name":"13 King of Questing","suit":"Questing","path":"web_cards/Questing/13 King of Questing.png"},{"name":"14 Queen of Questing","suit":"Questing","path":"web_cards/Questing/14 Queen of Questing.png"},{"name":"2 of Questing.tif","suit":"Questing","path":"web_cards/Questing/2 of Questing.tif.png"},{"name":"3 of Questing","suit":"Questing","path":"web_cards/Questing/3 of Questing.png"},{"name":"4 of Questing","suit":"Questing","path":"web_cards/Questing/4 of Questing.png"},{"name":"5 of Questing","suit":"Questing","path":"web_cards/Questing/5 of Questing.png"},{"name":"6 of Questing","suit":"Questing","path":"web_cards/Questing/6 of Questing.png"},{"name":"7 of Questing","suit":"Questing","path":"web_cards/Questing/7 of Questing.png"},{"name":"8 of Questing","suit":"Questing","path":"web_cards/Questing/8 of Questing.png"},{"name":"9 of Questing","suit":"Questing","path":"web_cards/Questing/9 of Questing.png"}];
 
 const DESCS = {
-  "0 Fool": "Yeni baslangiçlar, saf enerji, sonsuz potansiyel.",
-  "1 Mage": "Irade, yaraticilik, ustalık ve dönüsüm gücü.",
-  "03 The Empress": "Bereket, doga, annelik, bolluk ve yaraticilik.",
-  "4 Tarot Emperor": "Otorite, yapi, düzen ve liderlik.",
-  "5 The Heirophant": "Gelenek, manevi rehberlik ve kurumsal bilgelik.",
-  "6 The Lovers": "Ask, uyum, degerler ve önemli seçimler.",
-  "7 The Chariot": "Zafer, irade gücü, kontrol ve azim.",
-  "8 Strength": "Iç güç, cesaret, sabir ve sefkat.",
-  "9 The Hermit": "Iç arayis, yalnizlik, rehberlik ve bilgelik.",
-  "10 Wheel Fortune": "Döngüler, kader, dönüm noktalari ve sans.",
-  "11 Justice": "Adalet, denge, hakikat ve sebep-sonuç.",
-  "12 The Hanged Man": "Teslim olus, bekleyis, yeni bakis açisi ve fedakarlık.",
-  "13 Death": "Dönüsüm, son ve yeni baslangiçlar, degisim.",
-  "14 Temperance": "Denge, ilimlilik, sabir ve amaç.",
-  "15 The Devil": "Baglar, maddecilik, gölge yön ve kisitlamalar.",
-  "16 The Tower": "Ani degisim, yikim, kurtulus ve kirilma.",
-  "17 The Star": "Umut, ilham, yenilenme ve maneviyat.",
-  "18 Luna": "Sezgi, bilinçdisi, korkular ve hayal.",
-  "19 The Sun": "Nese, basari, canlilik ve aydinlanma.",
-  "20 Judgement": "Uyanis, yeniden dogus, af ve yüksek çagri.",
-  "21 Gaia": "Tamamlanma, bütünlük, basari ve dünya.",
-  "2 High Priestess": "Sezgi, gizem, bilinçdisi ve içsel bilgelik.",
+  "0 Fool": "New beginnings, pure energy, infinite potential.",
+  "1 Mage": "Will, creativity, mastery and the power of transformation.",
+  "03 The Empress": "Fertility, nature, motherhood, abundance and creativity.",
+  "4 Tarot Emperor": "Authority, structure, order and leadership.",
+  "5 The Heirophant": "Tradition, spiritual guidance and institutional wisdom.",
+  "6 The Lovers": "Love, harmony, values and important choices.",
+  "7 The Chariot": "Victory, willpower, control and determination.",
+  "8 Strength": "Inner strength, courage, patience and compassion.",
+  "9 The Hermit": "Inner seeking, solitude, guidance and wisdom.",
+  "10 Wheel Fortune": "Cycles, fate, turning points and fortune.",
+  "11 Justice": "Justice, balance, truth and cause and effect.",
+  "12 The Hanged Man": "Surrender, waiting, new perspective and sacrifice.",
+  "13 Death": "Transformation, endings and new beginnings, change.",
+  "14 Temperance": "Balance, moderation, patience and purpose.",
+  "15 The Devil": "Bonds, materialism, shadow self and limitations.",
+  "16 The Tower": "Sudden change, upheaval, liberation and breaking down.",
+  "17 The Star": "Hope, inspiration, renewal and spirituality.",
+  "18 Luna": "Intuition, the unconscious, fears and illusion.",
+  "19 The Sun": "Joy, success, vitality and enlightenment.",
+  "20 Judgement": "Awakening, rebirth, forgiveness and higher calling.",
+  "21 Gaia": "Completion, wholeness, achievement and the world.",
+  "2 High Priestess": "Intuition, mystery, the unconscious and inner wisdom.",
 };
 
 const SUIT_CLASS = {
