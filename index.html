@@ -128,6 +128,23 @@
     transform: rotateY(180deg) translateY(-4px);
   }
 
+  .card-frame.reversed .card-back,
+  .card-frame.reversed .card-front {
+    transform: rotateY(0deg) rotate(180deg);
+  }
+  .card-frame.reversed .card-front {
+    transform: rotateY(180deg) rotate(180deg);
+  }
+  .card-frame.reversed:hover .card-inner {
+    transform: translateY(-4px);
+  }
+  .card-frame.reversed.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+  .card-frame.reversed.flipped:hover .card-inner {
+    transform: rotateY(180deg) translateY(-4px);
+  }
+
   .card-inner {
     position: relative;
     width: 100%;
@@ -406,7 +423,7 @@ function sample(arr, n) {
     const j = Math.floor(Math.random() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
-  return a.slice(0, Math.min(n, a.length));
+  return a.slice(0, Math.min(n, a.length)).map(c => ({ ...c, reversed: Math.random() < 0.5 }));
 }
 
 function cleanName(raw) {
@@ -449,32 +466,39 @@ function renderCards(drawn) {
     inner.appendChild(back);
     inner.appendChild(front);
     frame.appendChild(inner);
+    if (card.reversed) frame.classList.add('reversed');
     frame.addEventListener('click', () => frame.classList.toggle('flipped'));
 
     const displayName = cleanName(card.name);
     const desc = DESCS[displayName];
+    const orientation = card.reversed ? 'reversed' : 'upright';
 
     const label = document.createElement('div');
     label.className = 'card-label';
     label.innerHTML = `
-      <div><span class="suit-badge ${SUIT_CLASS[card.suit] || ''}">${card.suit}</span></div>
+      <div>
+        <span class="suit-badge ${SUIT_CLASS[card.suit] || ''}">${card.suit}</span>
+        ${card.reversed ? '<span class="suit-badge" style="color:#ff7e7e;border-color:#ff7e7e44;background:#ff7e7e11">Reversed</span>' : ''}
+      </div>
       <div class="name">${displayName}</div>
     `;
 
     if (desc) {
       const tooltip = document.createElement('div');
       tooltip.className = 'card-tooltip';
+      const shownDesc = desc[orientation];
+      const otherLabel = orientation === 'upright' ? 'reversed' : 'upright';
       tooltip.innerHTML = `
         <div class="tt-name">${displayName}</div>
         <div class="tt-suit">${card.suit}</div>
         <div class="tt-meaning">
-          <div class="tt-meaning-label upright">Upright</div>
-          <div class="tt-desc">${desc.upright}</div>
+          <div class="tt-meaning-label ${orientation}">${orientation.charAt(0).toUpperCase() + orientation.slice(1)}</div>
+          <div class="tt-desc">${shownDesc}</div>
         </div>
         <hr>
         <div class="tt-meaning">
-          <div class="tt-meaning-label reversed">Reversed</div>
-          <div class="tt-desc">${desc.reversed}</div>
+          <div class="tt-meaning-label ${otherLabel}" style="opacity:0.45">${otherLabel.charAt(0).toUpperCase() + otherLabel.slice(1)}</div>
+          <div class="tt-desc" style="opacity:0.45">${desc[otherLabel]}</div>
         </div>
       `;
       slot.appendChild(tooltip);
