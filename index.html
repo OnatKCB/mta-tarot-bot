@@ -189,6 +189,9 @@
     margin-top: 0.15rem;
     font-size: 0.9rem;
   }
+  .card-slot:not(:has(.card-frame.flipped)) .card-label {
+    visibility: hidden;
+  }
   .card-label .desc {
     color: var(--muted);
     font-size: 0.78rem;
@@ -239,7 +242,8 @@
     z-index: 100;
     pointer-events: none;
   }
-  .card-slot:hover .card-tooltip { display: block; }
+  .card-slot:hover .card-tooltip { display: none; }
+  .card-slot:has(.card-frame.flipped):hover .card-tooltip { display: block; }
   .card-tooltip .tt-name {
     color: var(--accent2);
     font-size: 0.9rem;
