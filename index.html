@@ -203,6 +203,53 @@
   .suit-badge.questing { color: #ff9eee; border-color: #ff9eee44; background: #ff9eee11; }
 
   #back-img { display: none; }
+
+  .card-slot { position: relative; }
+
+  .card-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    background: #1e1838ee;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 8px 32px #00000099, 0 0 0 1px #9b6dff33;
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    pointer-events: none;
+  }
+  .card-slot:hover .card-tooltip { display: block; }
+  .card-tooltip .tt-name {
+    color: var(--accent2);
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 0.35rem;
+  }
+  .card-tooltip .tt-suit {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+  .card-tooltip .tt-desc {
+    color: var(--text);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .card-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--border);
+  }
 </style>
 </head>
 <body>
@@ -239,28 +286,90 @@
 const CARDS = [{"name":"1 Ace of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/1 Ace of Dynamism.png"},{"name":"10 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/10 of Dynamism.png"},{"name":"11 Page of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/11 Page of Dynamism.png"},{"name":"12 Knight of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/12 Knight of Dynamism.png"},{"name":"13 King of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/13 King of Dynamism.png"},{"name":"14 Queen of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/14 Queen of Dynamism.png"},{"name":"2 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/2 of Dynamism.png"},{"name":"3 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/3 of Dynamism.png"},{"name":"4 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/4 of Dynamism.png"},{"name":"5 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/5 of Dynamism.png"},{"name":"6 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/6 of Dynamism.png"},{"name":"7 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/7 of Dynamism.png"},{"name":"8 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/8 of Dynamism.png"},{"name":"9 of Dynamism","suit":"Dynamism","path":"web_cards/Dynamism/9 of Dynamism.png"},{"name":"0 Fool","suit":"Major Arcana","path":"web_cards/Major Arcana/0 Fool.png"},{"name":"03 The Empress","suit":"Major Arcana","path":"web_cards/Major Arcana/03 The Empress.png"},{"name":"1 Mage","suit":"Major Arcana","path":"web_cards/Major Arcana/1 Mage.png"},{"name":"10 Wheel Fortune","suit":"Major Arcana","path":"web_cards/Major Arcana/10 Wheel Fortune.png"},{"name":"11 Justice","suit":"Major Arcana","path":"web_cards/Major Arcana/11 Justice.png"},{"name":"12 The Hanged Man","suit":"Major Arcana","path":"web_cards/Major Arcana/12 The Hanged Man.png"},{"name":"13 Death","suit":"Major Arcana","path":"web_cards/Major Arcana/13 Death.png"},{"name":"14 Temperance","suit":"Major Arcana","path":"web_cards/Major Arcana/14 Temperance.png"},{"name":"15 The Devil","suit":"Major Arcana","path":"web_cards/Major Arcana/15 The Devil.png"},{"name":"16 The Tower","suit":"Major Arcana","path":"web_cards/Major Arcana/16 The Tower.png"},{"name":"17 The Star","suit":"Major Arcana","path":"web_cards/Major Arcana/17 The Star.png"},{"name":"18 Luna","suit":"Major Arcana","path":"web_cards/Major Arcana/18 Luna.png"},{"name":"19 The Sun","suit":"Major Arcana","path":"web_cards/Major Arcana/19 The Sun.png"},{"name":"2 High Priestess","suit":"Major Arcana","path":"web_cards/Major Arcana/2 High Priestess.png"},{"name":"20 Judgement","suit":"Major Arcana","path":"web_cards/Major Arcana/20 Judgement.png"},{"name":"21 Gaia","suit":"Major Arcana","path":"web_cards/Major Arcana/21 Gaia.png"},{"name":"4 Tarot Emperor","suit":"Major Arcana","path":"web_cards/Major Arcana/4 Tarot Emperor.png"},{"name":"5 The Heirophant","suit":"Major Arcana","path":"web_cards/Major Arcana/5 The Heirophant.png"},{"name":"6 The Lovers","suit":"Major Arcana","path":"web_cards/Major Arcana/6 The Lovers.png"},{"name":"7 The Chariot","suit":"Major Arcana","path":"web_cards/Major Arcana/7 The Chariot.png"},{"name":"8 Strength","suit":"Major Arcana","path":"web_cards/Major Arcana/8 Strength.png"},{"name":"9 The Hermit","suit":"Major Arcana","path":"web_cards/Major Arcana/9 The Hermit.png"},{"name":"1 Ace of Pattern","suit":"Pattern","path":"web_cards/Pattern/1 Ace of Pattern.png"},{"name":"10 Pattern","suit":"Pattern","path":"web_cards/Pattern/10 Pattern.png"},{"name":"11 Page of Pattern","suit":"Pattern","path":"web_cards/Pattern/11 Page of Pattern.png"},{"name":"12 Knight of Pattern","suit":"Pattern","path":"web_cards/Pattern/12 Knight of Pattern.png"},{"name":"13 King pattern","suit":"Pattern","path":"web_cards/Pattern/13 King pattern.png"},{"name":"14 Queen of Pattern","suit":"Pattern","path":"web_cards/Pattern/14 Queen of Pattern.png"},{"name":"2 Pattern","suit":"Pattern","path":"web_cards/Pattern/2 Pattern.png"},{"name":"3 Pattern","suit":"Pattern","path":"web_cards/Pattern/3 Pattern.png"},{"name":"4 Pattern","suit":"Pattern","path":"web_cards/Pattern/4 Pattern.png"},{"name":"5 Pattern","suit":"Pattern","path":"web_cards/Pattern/5 Pattern.png"},{"name":"6 Pattern","suit":"Pattern","path":"web_cards/Pattern/6 Pattern.png"},{"name":"7 Pattern","suit":"Pattern","path":"web_cards/Pattern/7 Pattern.png"},{"name":"8 Pattern","suit":"Pattern","path":"web_cards/Pattern/8 Pattern.png"},{"name":"9 Pattern","suit":"Pattern","path":"web_cards/Pattern/9 Pattern.png"},{"name":"1 Ace of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/1 Ace of Primordialism.png"},{"name":"10 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/10 of Primordialism.png"},{"name":"11 Page of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/11 Page of Primordialism.png"},{"name":"12 Knight of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/12 Knight of Primordialism.png"},{"name":"13 King of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/13 King of Primordialism.png"},{"name":"14 Queen of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/14 Queen of Primordialism.png"},{"name":"2 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/2 of Primordialism.png"},{"name":"3 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/3 of Primordialism.png"},{"name":"4 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/4 of Primordialism.png"},{"name":"5 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/5 of Primordialism.png"},{"name":"6 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/6 of Primordialism.png"},{"name":"7 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/7 of Primordialism.png"},{"name":"8 of Primordialism.tif","suit":"Primordialism","path":"web_cards/Primordialism/8 of Primordialism.tif.png"},{"name":"9 of Primordialism","suit":"Primordialism","path":"web_cards/Primordialism/9 of Primordialism.png"},{"name":"1 Ace of Questing","suit":"Questing","path":"web_cards/Questing/1 Ace of Questing.png"},{"name":"10 of Questing","suit":"Questing","path":"web_cards/Questing/10 of Questing.png"},{"name":"11 Page of Questing","suit":"Questing","path":"web_cards/Questing/11 Page of Questing.png"},{"name":"12 Knight of Questing","suit":"Questing","path":"web_cards/Questing/12 Knight of Questing.png"},{"name":"13 King of Questing","suit":"Questing","path":"web_cards/Questing/13 King of Questing.png"},{"name":"14 Queen of Questing","suit":"Questing","path":"web_cards/Questing/14 Queen of Questing.png"},{"name":"2 of Questing.tif","suit":"Questing","path":"web_cards/Questing/2 of Questing.tif.png"},{"name":"3 of Questing","suit":"Questing","path":"web_cards/Questing/3 of Questing.png"},{"name":"4 of Questing","suit":"Questing","path":"web_cards/Questing/4 of Questing.png"},{"name":"5 of Questing","suit":"Questing","path":"web_cards/Questing/5 of Questing.png"},{"name":"6 of Questing","suit":"Questing","path":"web_cards/Questing/6 of Questing.png"},{"name":"7 of Questing","suit":"Questing","path":"web_cards/Questing/7 of Questing.png"},{"name":"8 of Questing","suit":"Questing","path":"web_cards/Questing/8 of Questing.png"},{"name":"9 of Questing","suit":"Questing","path":"web_cards/Questing/9 of Questing.png"}];
 
 const DESCS = {
-  "0 Fool": "New beginnings, pure energy, infinite potential.",
-  "1 Mage": "Will, creativity, mastery and the power of transformation.",
-  "03 The Empress": "Fertility, nature, motherhood, abundance and creativity.",
-  "4 Tarot Emperor": "Authority, structure, order and leadership.",
-  "5 The Heirophant": "Tradition, spiritual guidance and institutional wisdom.",
-  "6 The Lovers": "Love, harmony, values and important choices.",
-  "7 The Chariot": "Victory, willpower, control and determination.",
-  "8 Strength": "Inner strength, courage, patience and compassion.",
-  "9 The Hermit": "Inner seeking, solitude, guidance and wisdom.",
-  "10 Wheel Fortune": "Cycles, fate, turning points and fortune.",
-  "11 Justice": "Justice, balance, truth and cause and effect.",
-  "12 The Hanged Man": "Surrender, waiting, new perspective and sacrifice.",
-  "13 Death": "Transformation, endings and new beginnings, change.",
-  "14 Temperance": "Balance, moderation, patience and purpose.",
-  "15 The Devil": "Bonds, materialism, shadow self and limitations.",
-  "16 The Tower": "Sudden change, upheaval, liberation and breaking down.",
-  "17 The Star": "Hope, inspiration, renewal and spirituality.",
-  "18 Luna": "Intuition, the unconscious, fears and illusion.",
-  "19 The Sun": "Joy, success, vitality and enlightenment.",
-  "20 Judgement": "Awakening, rebirth, forgiveness and higher calling.",
-  "21 Gaia": "Completion, wholeness, achievement and the world.",
-  "2 High Priestess": "Intuition, mystery, the unconscious and inner wisdom.",
+  // Major Arcana
+  "0 Fool":           "New beginnings, pure energy, and infinite potential. The soul leaps into the unknown with reckless faith.",
+  "1 Mage":           "Will, creativity, and mastery. The Mage shapes reality through focused intent and raw Quintessence.",
+  "1 Cover Mage":     "Will, creativity, and mastery. The Mage shapes reality through focused intent and raw Quintessence.",
+  "2 High Priestess": "Intuition, mystery, and inner wisdom. She guards the threshold between the conscious and the Umbra.",
+  "03 The Empress":   "Fertility, nature, abundance and creativity. Life flows through her — the Tapestry made manifest.",
+  "4 Tarot Emperor":  "Authority, structure, order and leadership. He enforces the patterns that hold reality in place.",
+  "5 The Heirophant": "Tradition, spiritual guidance and institutional wisdom. The keeper of inherited paradigms.",
+  "6 The Lovers":     "Love, harmony, values and important choices. A crossroads where the heart and the soul must align.",
+  "7 The Chariot":    "Victory, willpower, control and determination. The mage who masters inner conflict conquers the world.",
+  "8 Strength":       "Inner strength, courage, patience and compassion. True power comes from taming the beast within.",
+  "9 The Hermit":     "Inner seeking, solitude, guidance and wisdom. He walks the long road alone, lantern held high.",
+  "10 Wheel Fortune": "Cycles, fate, turning points and fortune. The Wheel spins — even the Traditions rise and fall.",
+  "11 Justice":       "Justice, balance, truth and cause and effect. Every working leaves a mark on the Tapestry.",
+  "12 The Hanged Man":"Surrender, a new perspective, and sacrifice. Wisdom is found by hanging still in the in-between.",
+  "13 Death":         "Transformation, endings and new beginnings. The Reaper clears the old so something truer can emerge.",
+  "14 Temperance":    "Balance, moderation, patience and purpose. The alchemist blends opposing forces into gold.",
+  "15 The Devil":     "Bonds, materialism, shadow self and limitations. The Technocracy's grip — or chains you forged yourself.",
+  "16 The Tower":     "Sudden change, upheaval and liberation. When a false paradigm shatters, the fall is violent but freeing.",
+  "17 The Star":      "Hope, inspiration, renewal and spirituality. After the storm, a quiet light guides the weary mage home.",
+  "18 Luna":          "Intuition, the unconscious, fears and illusion. The Moon hides as much as it reveals in its silver light.",
+  "19 The Sun":       "Joy, success, vitality and enlightenment. Pure Quintessence radiates outward — reality sings.",
+  "20 Judgement":     "Awakening, rebirth, forgiveness and higher calling. The final Seeking before Ascension beckons.",
+  "21 Gaia":          "Completion, wholeness and achievement. The mage has walked every path; the world is home.",
+  // Dynamism
+  "1 Ace of Dynamism":  "The spark of pure creative force. Unlimited potential waiting to ignite a new working.",
+  "2 of Dynamism":      "Balance of opposing energies. Two forces held in tension, each strengthening the other.",
+  "3 of Dynamism":      "First fruits of creative effort. Early success that hints at what is yet to come.",
+  "4 of Dynamism":      "Celebration and foundation. A moment of earned rest before the next working begins.",
+  "5 of Dynamism":      "Conflict and competition. Clashing paradigms that spark growth through friction.",
+  "6 of Dynamism":      "Victory and generosity. Power shared freely amplifies rather than diminishes.",
+  "7 of Dynamism":      "Defiance and perseverance. Standing your ground against those who would unmake your reality.",
+  "8 of Dynamism":      "Swift momentum and clarity of purpose. Energy channeled so precisely it blurs into motion.",
+  "9 of Dynamism":      "Resilience under pressure. Battle-hardened will that bends but never breaks.",
+  "10 of Dynamism":     "The weight of accumulated power. Mastery achieved, but the burden of it grows heavy.",
+  "11 Page of Dynamism":"Curiosity and creative hunger. A young mage who sees every obstacle as an experiment.",
+  "12 Knight of Dynamism": "Headlong charge into the unknown. Reckless brilliance that reshapes the world in its wake.",
+  "13 King of Dynamism":   "Commanding creative vision. A master who bends the flow of events with effortless authority.",
+  "14 Queen of Dynamism":  "Vibrant and magnetic leadership. She inspires others to burn brighter than they thought possible.",
+  // Pattern
+  "1 Ace of Pattern":   "The seed of perfect order. A pristine template from which all structure unfolds.",
+  "2 Pattern":          "Careful weighing of choices. Two paths, both real — precision matters before the first step.",
+  "3 Pattern":          "Skill made tangible. Craft and planning paying off in something beautifully constructed.",
+  "4 Pattern":          "Security and consolidation. Holding what has been built while watching for cracks.",
+  "5 Pattern":          "Loss and hardship. The pattern frays — a lesson hidden inside the unraveling.",
+  "6 Pattern":          "Generosity and flow. Resources move where they are needed; the pattern breathes.",
+  "7 Pattern":          "Patience and assessment. The long-term harvest is worth more than the quick gain.",
+  "8 Pattern":          "Focused diligence. Mastery approached one careful, deliberate repetition at a time.",
+  "9 Pattern":          "Self-sufficiency and quiet achievement. Everything needed has been quietly gathered.",
+  "10 Pattern":         "Abundance and legacy. The pattern complete — wealth, stability, and something to pass on.",
+  "11 Page of Pattern": "Studious and methodical curiosity. She dissects every system to understand it fully.",
+  "12 Knight of Pattern":"Relentless, methodical pursuit. He advances without hurry and without stopping.",
+  "13 King pattern":    "Disciplined mastery of material reality. His word is architecture; his will is law.",
+  "14 Queen of Pattern":"Practical wisdom and quiet abundance. She builds worlds that outlast her.",
+  // Primordialism
+  "1 Ace of Primordialism":  "The raw power of nature unbound. Primal force before it is named or shaped.",
+  "2 of Primordialism":      "Dueling instincts and elemental tension. Two ancient forces negotiate an uneasy truce.",
+  "3 of Primordialism":      "Collaboration rooted in primal trust. Three forces weave together something none could alone.",
+  "4 of Primordialism":      "Stillness and primal sanctuary. The wild at rest, conserving strength for what comes next.",
+  "5 of Primordialism":      "Elemental conflict and upheaval. The natural order disrupted by forces in violent disagreement.",
+  "6 of Primordialism":      "Harmony of natural cycles. Giving and receiving in rhythm with the living world.",
+  "7 of Primordialism":      "Primal courage and instinct. Facing the unknown with the fearless clarity of a predator.",
+  "8 of Primordialism":      "Untamed swiftness. Movement so natural it becomes invisible — pure instinct in motion.",
+  "9 of Primordialism":      "Primal strength tested. The lone survivor, scarred but unbroken by everything the wild threw.",
+  "10 of Primordialism":     "Overwhelming primal force. The weight of the natural world fully unleashed.",
+  "11 Page of Primordialism":"Wild and eager apprentice. She learns by doing — touching fire to know it burns.",
+  "12 Knight of Primordialism": "Fierce champion of the natural world. He rides the storm and calls it home.",
+  "13 King of Primordialism":   "Ancient and sovereign force of nature. He does not rule the wild — he is the wild.",
+  "14 Queen of Primordialism":  "Nurturing and formidable in equal measure. She protects her domain with fierce, patient love.",
+  // Questing
+  "1 Ace of Questing":  "The call to adventure and purpose. A new Seeking begins — the road opens wide.",
+  "2 of Questing":      "Bold vision and early resolve. Standing at the edge of the known, planning the leap.",
+  "3 of Questing":      "Expansion and foresight. The first steps taken; now the horizon grows more vast.",
+  "4 of Questing":      "Joyful homecoming and earned celebration. The quest complete — for now.",
+  "5 of Questing":      "Strife and competing ambitions. Fellow seekers clashing, each sure their path is true.",
+  "6 of Questing":      "Triumph and recognition. The road was hard; the return is glorious.",
+  "7 of Questing":      "Holding the high ground. Defending a hard-won position against those who would claim it.",
+  "8 of Questing":      "Rapid progress and decisive momentum. Events accelerate — the quest nears its climax.",
+  "9 of Questing":      "Tested resolve on the final stretch. Every wound earned; every step still chosen freely.",
+  "10 of Questing":     "The burden of an overloaded quest. Too many obligations threaten to crush the seeker.",
+  "11 Page of Questing":"Adventurous and endlessly curious. He sprints toward every horizon just to see what lies beyond.",
+  "12 Knight of Questing": "Passionate and visionary crusader. She quests not for glory but because the cause demands it.",
+  "13 King of Questing":   "Charismatic leader and master of purpose. His quest becomes the quest of everyone around him.",
+  "14 Queen of Questing":  "Confident and warmly courageous. She knows her path and welcomes others to walk beside her.",
 };
 
 const SUIT_CLASS = {
@@ -324,14 +433,26 @@ function renderCards(drawn) {
     frame.appendChild(inner);
     frame.addEventListener('click', () => frame.classList.toggle('flipped'));
 
+    const displayName = cleanName(card.name);
+    const desc = DESCS[displayName] || '';
+
     const label = document.createElement('div');
     label.className = 'card-label';
-    const displayName = cleanName(card.name);
     label.innerHTML = `
       <div><span class="suit-badge ${SUIT_CLASS[card.suit] || ''}">${card.suit}</span></div>
       <div class="name">${displayName}</div>
-      ${DESCS[displayName] ? `<div class="desc">${DESCS[displayName]}</div>` : ''}
     `;
+
+    if (desc) {
+      const tooltip = document.createElement('div');
+      tooltip.className = 'card-tooltip';
+      tooltip.innerHTML = `
+        <div class="tt-name">${displayName}</div>
+        <div class="tt-suit">${card.suit}</div>
+        <div class="tt-desc">${desc}</div>
+      `;
+      slot.appendChild(tooltip);
+    }
 
     slot.appendChild(frame);
     slot.appendChild(label);
