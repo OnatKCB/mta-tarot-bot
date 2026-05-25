@@ -192,6 +192,9 @@
   .card-slot:not(:has(.card-frame.flipped)) .card-label {
     visibility: hidden;
   }
+  .card-slot:not(:has(.card-frame.flipped)) .card-info-panel {
+    display: none !important;
+  }
   .card-label .desc {
     color: var(--muted);
     font-size: 0.78rem;
@@ -226,61 +229,59 @@
 
   .card-slot { position: relative; }
 
-  .card-tooltip {
+  .card-name-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+    transition: color 0.15s;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .card-name-btn:hover { color: var(--accent2); }
+  .card-slot:not(:has(.card-frame.flipped)) .card-name-btn { pointer-events: none; }
+
+  .card-info-panel {
     display: none;
-    position: absolute;
-    bottom: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 260px;
-    background: #1e1838ee;
+    width: var(--card-w);
+    background: #1a1530;
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 0.75rem 1rem;
-    box-shadow: 0 8px 32px #00000099, 0 0 0 1px #9b6dff33;
-    backdrop-filter: blur(6px);
-    z-index: 100;
-    pointer-events: none;
+    padding: 0.85rem 1rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 24px #00000066;
+    text-align: left;
   }
-  .card-slot:hover .card-tooltip { display: none; }
-  .card-slot:has(.card-frame.flipped):hover .card-tooltip { display: block; }
-  .card-tooltip .tt-name {
-    color: var(--accent2);
-    font-size: 0.9rem;
-    font-weight: bold;
-    margin-bottom: 0.35rem;
-  }
-  .card-tooltip .tt-suit {
-    font-size: 0.72rem;
+  .card-info-panel.open { display: block; animation: fadeIn 0.2s ease both; }
+  .card-info-panel .tt-suit {
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.07em;
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
+    opacity: 0.6;
+    margin-bottom: 0.55rem;
   }
-  .card-tooltip .tt-meaning {
-    margin-top: 0.45rem;
-  }
-  .card-tooltip .tt-meaning-label {
+  .card-info-panel .tt-meaning { margin-top: 0.5rem; }
+  .card-info-panel .tt-meaning-label {
     font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 0.2rem;
     font-weight: bold;
   }
-  .card-tooltip .tt-meaning-label.upright { color: var(--accent2); }
-  .card-tooltip .tt-meaning-label.reversed { color: #ff7e7e; }
-  .card-tooltip .tt-desc {
+  .card-info-panel .tt-meaning-label.upright { color: var(--accent2); }
+  .card-info-panel .tt-meaning-label.reversed { color: #ff7e7e; }
+  .card-info-panel .tt-desc {
     color: var(--text);
     font-size: 0.8rem;
     line-height: 1.5;
     opacity: 0.9;
   }
-  .card-tooltip hr {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 0.5rem 0;
-  }
-  .card-tooltip .tt-keywords {
+  .card-info-panel .tt-keywords {
     color: var(--accent);
     font-size: 0.72rem;
     line-height: 1.45;
@@ -288,14 +289,10 @@
     font-style: italic;
     opacity: 0.85;
   }
-  .card-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--border);
+  .card-info-panel hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0.55rem 0;
   }
 </style>
 </head>
@@ -325,7 +322,7 @@
   <button class="btn" onclick="clearCards()">Clear</button>
 </div>
 
-<p class="hint">Click a card to flip and reveal it</p>
+<p class="hint">Click a card to flip &mdash; click the card name to read its interpretation</p>
 
 <div id="cards-area"></div>
 
@@ -487,24 +484,31 @@ function renderCards(drawn) {
 
     const label = document.createElement('div');
     label.className = 'card-label';
-    label.innerHTML = `
+
+    const badgesHtml = `
       <div>
         <span class="suit-badge ${SUIT_CLASS[card.suit] || ''}">${card.suit}</span>
         ${card.reversed ? '<span class="suit-badge" style="color:#ff7e7e;border-color:#ff7e7e44;background:#ff7e7e11">Reversed</span>' : ''}
       </div>
-      <div class="name">${displayName}</div>
     `;
+    label.innerHTML = badgesHtml;
+
+    const nameBtn = document.createElement('button');
+    nameBtn.className = 'card-name-btn';
+    nameBtn.textContent = displayName;
+    label.appendChild(nameBtn);
+
+    slot.appendChild(frame);
+    slot.appendChild(label);
 
     if (desc) {
-      const tooltip = document.createElement('div');
-      tooltip.className = 'card-tooltip';
+      const panel = document.createElement('div');
+      panel.className = 'card-info-panel';
       const shownDesc = desc[orientation];
       const otherLabel = orientation === 'upright' ? 'reversed' : 'upright';
-      const uprightKw  = desc.keywords         ? `<div class="tt-keywords">${desc.keywords}</div>` : '';
-      const reversedKw = desc.reversedKeywords  ? `<div class="tt-keywords" style="opacity:0.7">${desc.reversedKeywords}</div>` : '';
-      const traditionHtml = desc.tradition ? `<div class="tt-tradition">&#x2605; ${desc.tradition}</div>` : '';
-      tooltip.innerHTML = `
-        <div class="tt-name">${displayName}</div>
+      const uprightKw  = desc.keywords        ? `<div class="tt-keywords">${desc.keywords}</div>` : '';
+      const reversedKw = desc.reversedKeywords ? `<div class="tt-keywords" style="opacity:0.7">${desc.reversedKeywords}</div>` : '';
+      panel.innerHTML = `
         <div class="tt-suit">${card.suit}${desc.tradition ? ' &mdash; ' + desc.tradition : ''}</div>
         <div class="tt-meaning">
           <div class="tt-meaning-label ${orientation}">${orientation.charAt(0).toUpperCase() + orientation.slice(1)}</div>
@@ -518,11 +522,15 @@ function renderCards(drawn) {
           <div style="opacity:0.35">${orientation === 'upright' ? reversedKw : uprightKw}</div>
         </div>
       `;
-      slot.appendChild(tooltip);
+      nameBtn.addEventListener('click', () => {
+        const isOpen = panel.classList.contains('open');
+        // close all other open panels
+        document.querySelectorAll('.card-info-panel.open').forEach(p => p.classList.remove('open'));
+        if (!isOpen) panel.classList.add('open');
+      });
+      slot.appendChild(panel);
     }
 
-    slot.appendChild(frame);
-    slot.appendChild(label);
     area.appendChild(slot);
   });
 }
